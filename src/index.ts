@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import Fastify from 'fastify';
 
 const fastify = Fastify({
@@ -10,7 +12,7 @@ fastify.get('/', async (request, reply) => {
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 5000, host: '0.0.0.0' });
+    await fastify.listen({ port: process.env.PORT, host: '0.0.0.0' });
     console.log('Server is running on port 5000');
   } catch (err) {
     fastify.log.error(err);

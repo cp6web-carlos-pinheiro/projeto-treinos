@@ -6,7 +6,9 @@
     "target": "es2024",
     "skipLibCheck": true,
     "strict": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": ["src"]
 }

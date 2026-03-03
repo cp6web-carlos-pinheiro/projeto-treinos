@@ -10,6 +10,7 @@ Este arquivo fornece orientações ao Claude Code (claude.ai/code) ao trabalhar 
 - Fastify com Zod type provider
 - Prisma ORM com PostgreSQL (usando pg adapter)
 - better-auth para autenticação
+- Zod v4
 
 ## Comandos
 

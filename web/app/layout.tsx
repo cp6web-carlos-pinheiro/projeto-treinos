@@ -1,19 +1,53 @@
 import type { Metadata } from "next";
+import { Anton, Geist, Geist_Mono, Inter_Tight } from "next/font/google";
 import "./globals.css";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Suspense } from "react";
+import { Chat } from "./_components/chat";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const interTight = Inter_Tight({
+  variable: "--font-inter-tight",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const anton = Anton({
+  variable: "--font-anton",
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export const metadata: Metadata = {
-  title: "Bootcamp Treinos — API Tester",
-  description: "Página de teste da API Bootcamp Treinos",
+  title: "SMART.AI.FIT",
+  description: "O app que vai transformar a forma como você treina.",
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="pt-BR">
-      <body>{children}</body>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${interTight.variable} ${anton.variable} antialiased`}
+      >
+        <NuqsAdapter>
+          {children}
+          <Suspense>
+            <Chat />
+          </Suspense>
+        </NuqsAdapter>        
+      </body>
     </html>
   );
 }

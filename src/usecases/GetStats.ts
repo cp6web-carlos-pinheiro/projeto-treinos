@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
 
-import { NotFoundError } from "../errors/index.js";
 import { prisma } from "../lib/db.js";
 
 dayjs.extend(utc);
@@ -51,7 +50,13 @@ export class GetStats {
     });
 
     if (!workoutPlan) {
-      throw new NotFoundError("Active workout plan not found");
+      return {
+        workoutStreak: 0,
+        consistencyByDay: {},
+        completedWorkoutsCount: 0,
+        conclusionRate: 0,
+        totalTimeInSeconds: 0,
+      };
     }
 
     const sessions = await prisma.workoutSession.findMany({

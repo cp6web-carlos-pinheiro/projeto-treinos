@@ -1,3 +1,5 @@
+"use client";
+
 import { CircleHelp, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { GetWorkoutDay200ExercisesItem } from "@/app/_lib/api/fetch-generated";

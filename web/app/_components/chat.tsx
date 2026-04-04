@@ -26,30 +26,20 @@ export function Chat() {
 
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const initialMessageSentRef = useRef(false);
+  const sentMessagesRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
-    if (
-      chatParams.chat_open &&
-      chatParams.chat_initial_message &&
-      !initialMessageSentRef.current
-    ) {
-      initialMessageSentRef.current = true;
-      sendMessage({ text: chatParams.chat_initial_message });
+    const msg = chatParams.chat_initial_message;
+    if (!chatParams.chat_open || !msg) return;
+    if (sentMessagesRef.current.has(msg)) {
       setChatParams({ chat_initial_message: null });
+      return;
     }
-  }, [
-    chatParams.chat_open,
-    chatParams.chat_initial_message,
-    sendMessage,
-    setChatParams,
-  ]);
-
-  useEffect(() => {
-    if (!chatParams.chat_open) {
-      initialMessageSentRef.current = false;
-    }
-  }, [chatParams.chat_open]);
+    sentMessagesRef.current.add(msg);
+    sendMessage({ text: msg });
+    setChatParams({ chat_initial_message: null });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatParams.chat_open, chatParams.chat_initial_message]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

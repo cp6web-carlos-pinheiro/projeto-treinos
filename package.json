@@ -4,10 +4,11 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "dev": "tsx --watch src/index.ts"
+    "dev": "tsx --watch src/index.ts",
+    "dev:all": "PORT=8081 tsx --watch src/index.ts & sleep 2 && cd web && npm run dev"
   },
   "engines": {
-    "node": "24.x"
+    "node": "20.x"
   },
   "keywords": [],
   "author": "",

@@ -44,7 +44,7 @@ await app.register(fastifySwagger, {
 });
 
 await app.register(fastifyCors, {
-  origin: ["http://localhost:3000"],
+  origin: true,
   credentials: true,
 });
 
@@ -112,7 +112,7 @@ app.route({
   },
   async handler(request, reply) {
     try {
-      const url = new URL(request.url, `http://${request.headers.host}`);
+      const url = new URL(request.url, `https://${request.headers.host}`);
 
       const headers = new Headers();
       Object.entries(request.headers).forEach(([key, value]) => {

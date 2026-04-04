@@ -1,1 +1,14 @@
-{}
+{
+  "node_modules/.pnpm/streamdown@2.2.0_react@19.0.0/node_modules/streamdown/dist/chunk-LPQFK2AO.js -> ./code-block-OCS4YCEC.js": {
+    "id": "node_modules/.pnpm/streamdown@2.2.0_react@19.0.0/node_modules/streamdown/dist/chunk-LPQFK2AO.js -> ./code-block-OCS4YCEC.js",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_pnpm_streamdown_2_2_0_react_19_0_0_node_modules_streamdown_di-9c8046.js"
+    ]
+  },
+  "node_modules/.pnpm/streamdown@2.2.0_react@19.0.0/node_modules/streamdown/dist/chunk-LPQFK2AO.js -> ./mermaid-NOHMQCX5.js": {
+    "id": "node_modules/.pnpm/streamdown@2.2.0_react@19.0.0/node_modules/streamdown/dist/chunk-LPQFK2AO.js -> ./mermaid-NOHMQCX5.js",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_pnpm_streamdown_2_2_0_react_19_0_0_node_modules_streamdown_di-c43395.js"
+    ]
+  }
+}

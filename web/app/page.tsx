@@ -27,7 +27,10 @@ export default async function Home() {
     throw new Error("Failed to fetch home data");
   }
 
-  const { todayWorkoutDay, workoutStreak, consistencyByDay } = homeData.data;
+  const { todayWorkoutDay, workoutStreak, consistencyByDay, activeWorkoutPlanId } = homeData.data;
+
+  if (!activeWorkoutPlanId) redirect("/chat");
+
   const userName = session.data.user.name?.split(" ")[0] ?? "";
 
   return (

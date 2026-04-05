@@ -1006,10 +1006,6 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
-  .outline-none {
-    --tw-outline-style: none;
-    outline-style: none;
-  }
   .select-none {
     -webkit-user-select: none;
     user-select: none;

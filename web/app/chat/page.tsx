@@ -20,10 +20,12 @@ export default async function ChatPage() {
     redirect("/");
   }
 
+  const firstName = session.data.user.name?.split(" ")[0] ?? "atleta";
+
   return (
     <Chat
       embedded
-      initialMessage="Olá! Vou criar um plano de treino personalizado para você. Me conta: qual é o seu objetivo principal (ganhar massa, emagrecer, condicionamento), quantos dias por semana consegue treinar e qual é o seu nível de experiência?"
+      greeting={`Olá, ${firstName}! Sou o seu Coach AI e vou criar um plano de treino totalmente personalizado para você.\n\nMe conta algumas coisas:\n- Qual é o seu objetivo principal? (ganhar massa, emagrecer, melhorar o condicionamento)\n- Quantos dias por semana consegue treinar?\n- Qual é o seu nível de experiência? (iniciante, intermediário, avançado)`}
     />
   );
 }

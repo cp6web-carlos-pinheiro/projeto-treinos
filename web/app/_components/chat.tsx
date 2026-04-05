@@ -25,10 +25,10 @@ type ChatFormValues = z.infer<typeof chatFormSchema>;
 
 interface ChatProps {
   embedded?: boolean;
-  initialMessage?: string;
+  greeting?: string;
 }
 
-export function Chat({ embedded = false, initialMessage }: ChatProps) {
+export function Chat({ embedded = false, greeting }: ChatProps) {
   const [chatParams, setChatParams] = useQueryStates({
     chat_open: parseAsBoolean.withDefault(false),
     chat_initial_message: parseAsString,
@@ -39,23 +39,25 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
       api: `${process.env.NEXT_PUBLIC_API_URL}/ai`,
       credentials: "include",
     }),
+    initialMessages: greeting
+      ? [
+          {
+            id: "greeting-0",
+            role: "assistant" as const,
+            content: greeting,
+            parts: [{ type: "text" as const, text: greeting }],
+          },
+        ]
+      : undefined,
   });
 
   const form = useForm<ChatFormValues>({
     resolver: zodResolver(chatFormSchema),
     defaultValues: { message: "" },
   });
-  
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const embeddedMessageSentRef = useRef(false);
-  const sentModalMessagesRef = useRef<Set<string>>(new Set());
 
-  useEffect(() => {
-    if (!embedded || !initialMessage || embeddedMessageSentRef.current) return;
-    embeddedMessageSentRef.current = true;
-    sendMessage({ text: initialMessage });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [embedded, initialMessage]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const sentModalMessagesRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     const msg = chatParams.chat_initial_message;
@@ -87,10 +89,12 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
 
   const handleSuggestion = (text: string) => {
     sendMessage({ text });
-  };  
+  };
 
   const isStreaming = status === "streaming";
   const isLoading = status === "submitted" || isStreaming;
+
+  const showSuggestions = !embedded && messages.length === 0;
 
   const chatContent = (
     <div
@@ -178,7 +182,7 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
       </div>
 
       <div className="flex shrink-0 flex-col gap-3">
-        {messages.length === 0 && (
+        {showSuggestions && (
           <div className="flex gap-2.5 overflow-x-auto px-5">
             {SUGGESTED_MESSAGES.map((suggestion) => (
               <button

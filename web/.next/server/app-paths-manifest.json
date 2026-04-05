@@ -1,7 +1,4 @@
 {
   "/page": "app/page.js",
-  "/workout-plans/[id]/days/[dayId]/page": "app/workout-plans/[id]/days/[dayId]/page.js",
-  "/workout-plans/[id]/page": "app/workout-plans/[id]/page.js",
-  "/stats/page": "app/stats/page.js",
-  "/profile/page": "app/profile/page.js"
+  "/auth/page": "app/auth/page.js"
 }

@@ -1,32 +1,5 @@
 {
-  "node": {
-    "608fbd393b8c9599e9f9d247570f7584ae7e82a8c5": {
-      "workers": {
-        "app/workout-plans/[id]/days/[dayId]/page": {
-          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.7_@babel+core@7.29.0_@opentelemetry+api@1.9.0_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Frunner%2Fworkspace%2Fweb%2Fapp%2Fworkout-plans%2F%5Bid%5D%2Fdays%2F%5BdayId%5D%2F_actions.ts%22%2C%5B%7B%22id%22%3A%22608fbd393b8c9599e9f9d247570f7584ae7e82a8c5%22%2C%22exportedName%22%3A%22startWorkoutAction%22%2C%22filename%22%3A%22app%2Fworkout-plans%2F%5Bid%5D%2Fdays%2F%5BdayId%5D%2F_actions.ts%22%7D%2C%7B%22id%22%3A%227052fbcc66ab6a1b45a8d6624315c233b4189ecf74%22%2C%22exportedName%22%3A%22completeWorkoutAction%22%2C%22filename%22%3A%22app%2Fworkout-plans%2F%5Bid%5D%2Fdays%2F%5BdayId%5D%2F_actions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/workout-plans/[id]/days/[dayId]/page": "action-browser"
-      },
-      "filename": "app/workout-plans/[id]/days/[dayId]/_actions.ts",
-      "exportedName": "startWorkoutAction"
-    },
-    "7052fbcc66ab6a1b45a8d6624315c233b4189ecf74": {
-      "workers": {
-        "app/workout-plans/[id]/days/[dayId]/page": {
-          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.7_@babel+core@7.29.0_@opentelemetry+api@1.9.0_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Frunner%2Fworkspace%2Fweb%2Fapp%2Fworkout-plans%2F%5Bid%5D%2Fdays%2F%5BdayId%5D%2F_actions.ts%22%2C%5B%7B%22id%22%3A%22608fbd393b8c9599e9f9d247570f7584ae7e82a8c5%22%2C%22exportedName%22%3A%22startWorkoutAction%22%2C%22filename%22%3A%22app%2Fworkout-plans%2F%5Bid%5D%2Fdays%2F%5BdayId%5D%2F_actions.ts%22%7D%2C%7B%22id%22%3A%227052fbcc66ab6a1b45a8d6624315c233b4189ecf74%22%2C%22exportedName%22%3A%22completeWorkoutAction%22%2C%22filename%22%3A%22app%2Fworkout-plans%2F%5Bid%5D%2Fdays%2F%5BdayId%5D%2F_actions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/workout-plans/[id]/days/[dayId]/page": "action-browser"
-      },
-      "filename": "app/workout-plans/[id]/days/[dayId]/_actions.ts",
-      "exportedName": "completeWorkoutAction"
-    }
-  },
+  "node": {},
   "edge": {},
-  "encryptionKey": "jy3gFhkC9T9fN3wTQthblP/mzxUFSq1l1aYWr3JI69Y="
+  "encryptionKey": "Fyt69BTwzKzz0JLGujXf62FkFQoM5t7IxDDJYmrJqKU="
 }

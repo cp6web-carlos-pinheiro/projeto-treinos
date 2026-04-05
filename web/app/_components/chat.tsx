@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useQueryStates, parseAsBoolean, parseAsString } from "nuqs";
@@ -47,23 +47,24 @@ export function Chat({ embedded = false, initialMessage }: ChatProps) {
   });
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const sentMessagesRef = useRef<Set<string>>(new Set());
+  const embeddedMessageSentRef = useRef(false);
+  const sentModalMessagesRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
-    if (embedded && initialMessage && !sentMessagesRef.current) {
-      sentMessagesRef.current = true;
-      sendMessage({ text: initialMessage });
-    }
-  }, [embedded, initialMessage, sendMessage]);
+    if (!embedded || !initialMessage || embeddedMessageSentRef.current) return;
+    embeddedMessageSentRef.current = true;
+    sendMessage({ text: initialMessage });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [embedded, initialMessage]);
 
   useEffect(() => {
     const msg = chatParams.chat_initial_message;
     if (!chatParams.chat_open || !msg) return;
-    if (sentMessagesRef.current.has(msg)) {
+    if (sentModalMessagesRef.current.has(msg)) {
       setChatParams({ chat_initial_message: null });
       return;
     }
-    sentMessagesRef.current.add(msg);
+    sentModalMessagesRef.current.add(msg);
     sendMessage({ text: msg });
     setChatParams({ chat_initial_message: null });
   // eslint-disable-next-line react-hooks/exhaustive-deps

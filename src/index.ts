@@ -128,17 +128,28 @@ app.route({
   async handler(request, reply) {
     try {
       const url = new URL(request.url, `http://${request.headers.host}`);
-
       const headers = new Headers();
       Object.entries(request.headers).forEach(([key, value]) => {
         if (value) headers.append(key, value.toString());
       });
+
       const req = new Request(url.toString(), {
         method: request.method,
         headers,
         ...(request.body ? { body: JSON.stringify(request.body) } : {}),
       });
+
       const response = await auth.handler(req);
+
+      // Headers CORS manuais
+      reply.header("Access-Control-Allow-Origin", env.WEB_APP_BASE_URL);
+      reply.header("Access-Control-Allow-Credentials", "true");
+      reply.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+      reply.header(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization",
+      );
+
       reply.status(response.status);
       response.headers.forEach((value, key) => reply.header(key, value));
       reply.send(response.body ? await response.text() : null);
@@ -149,6 +160,19 @@ app.route({
         code: "AUTH_FAILURE",
       });
     }
+  },
+});
+
+app.route({
+  method: "OPTIONS",
+  url: "/api/auth/*",
+  schema: { hide: true },
+  async handler(request, reply) {
+    reply.header("Access-Control-Allow-Origin", env.WEB_APP_BASE_URL);
+    reply.header("Access-Control-Allow-Credentials", "true");
+    reply.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    reply.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    reply.status(204).send();
   },
 });
 

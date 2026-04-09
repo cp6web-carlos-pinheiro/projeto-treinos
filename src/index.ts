@@ -59,8 +59,25 @@ await app.register(fastifySwagger, {
 });
 
 await app.register(fastifyCors, {
-  origin: [env.WEB_APP_BASE_URL],
+  origin: (origin, callback) => {
+    const allowed = [env.WEB_APP_BASE_URL, "http://localhost:3000"];
+
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"), false);
+    }
+  },
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+  ],
+  exposedHeaders: ["Set-Cookie"],
+  maxAge: 86400, // 24 horas de cache para preflight
 });
 
 await app.register(fastifyApiReference, {
@@ -119,61 +136,37 @@ app.withTypeProvider<ZodTypeProvider>().route({
   },
 });
 
-app.route({
-  method: ["GET", "POST"],
-  url: "/api/auth/*",
-  schema: {
-    hide: true,
-  },
-  async handler(request, reply) {
-    try {
-      const url = new URL(request.url, `http://${request.headers.host}`);
-      const headers = new Headers();
-      Object.entries(request.headers).forEach(([key, value]) => {
-        if (value) headers.append(key, value.toString());
-      });
+app.all("/api/auth/*", async (request, reply) => {
+  try {
+    const url = new URL(request.url, `http://${request.headers.host}`);
 
-      const req = new Request(url.toString(), {
-        method: request.method,
-        headers,
-        ...(request.body ? { body: JSON.stringify(request.body) } : {}),
-      });
+    const authRequest = new Request(url.toString(), {
+      method: request.method,
+      headers: request.headers as HeadersInit,
+      body: request.body ? JSON.stringify(request.body) : undefined,
+    });
 
-      const response = await auth.handler(req);
+    const authResponse = await auth.handler(authRequest);
 
-      // Headers CORS manuais
-      reply.header("Access-Control-Allow-Origin", env.WEB_APP_BASE_URL);
-      reply.header("Access-Control-Allow-Credentials", "true");
-      reply.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-      reply.header(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization",
-      );
+    // Copia todos os headers (muito importante para Set-Cookie)
+    authResponse.headers.forEach((value, key) => {
+      reply.header(key, value);
+    });
 
-      reply.status(response.status);
-      response.headers.forEach((value, key) => reply.header(key, value));
-      reply.send(response.body ? await response.text() : null);
-    } catch (error) {
-      app.log.error(error);
-      reply.status(500).send({
-        error: "Internal authentication error",
-        code: "AUTH_FAILURE",
-      });
+    reply.status(authResponse.status);
+
+    if (authResponse.body) {
+      reply.send(await authResponse.text());
+    } else {
+      reply.send(null);
     }
-  },
-});
-
-app.route({
-  method: "OPTIONS",
-  url: "/api/auth/*",
-  schema: { hide: true },
-  async handler(request, reply) {
-    reply.header("Access-Control-Allow-Origin", env.WEB_APP_BASE_URL);
-    reply.header("Access-Control-Allow-Credentials", "true");
-    reply.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    reply.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    reply.status(204).send();
-  },
+  } catch (error) {
+    app.log.error(error);
+    reply.status(500).send({
+      error: "Internal authentication error",
+      code: "AUTH_FAILURE",
+    });
+  }
 });
 
 try {

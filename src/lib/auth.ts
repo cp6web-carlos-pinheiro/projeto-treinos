@@ -24,4 +24,18 @@ export const auth = betterAuth({
       enabled: true,
     },
   },
+  cookies: {
+    sessionToken: {
+      attributes: {
+        sameSite: "none",
+        secure: true,
+      },
+    },
+    state: {
+      attributes: {
+        sameSite: "none",
+        secure: true,
+      },
+    },
+  },
 });
